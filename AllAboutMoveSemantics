@@ -1,0 +1,33 @@
+
+Question- 1 What happens when you move a const rvalue reference ?
+==================================================================
+
+Code 
+----
+
+class Tracker {
+public:
+    Tracker() = default;   
+
+    Tracker(const Tracker&) {
+        std::cout << "Copy Constructor called!\n";
+    }    
+    Tracker(Tracker&&) {
+        std::cout << "Move Constructor called!\n";
+    }
+};
+
+int main() {
+    const Tracker t1;
+    Tracker t2 = std::move(t1); // Triggers Copy Constructor
+    Tracker t3;
+    std::cout << "\nMoving a non-const object:\n";
+    Tracker t4 = std::move(t3); // Triggers Move Constructor
+     return 0;
+}
+
+Question-1   Answer : 
+                        Copy Constructor Called
+                        Move Constructor called
+
+
