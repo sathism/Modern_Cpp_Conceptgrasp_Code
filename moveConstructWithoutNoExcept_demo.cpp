@@ -11,13 +11,13 @@ class Test
 
   public :
     Test(Test && ref)  : len(std::exchange(ref.len, 0)),
-                                 data(std::exchange(ref.data, nullptr))
+                         data(std::exchange(ref.data, nullptr))
     {
        std::cout << "Test :: move constructor\n";
        std::cout << "Len = " << len <<"\n";
     }
 
-    Test& operator=(Test && ref) 
+    Test& operator=(Test&& ref) 
     {
         if(this != &ref)
         {
@@ -71,6 +71,5 @@ int main()
    std::vector<Test> v;
    v.emplace_back();
    v.emplace_back();
-
 }
 
