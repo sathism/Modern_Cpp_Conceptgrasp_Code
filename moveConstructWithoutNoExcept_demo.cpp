@@ -68,8 +68,12 @@ class Test
 
 int main()
 {
-   std::vector<Test> v;
+   std::vector<Test> v(2);
    v.emplace_back();
    v.emplace_back();
+   /* with the below insertion vector does memory reallocation 
+    * and with that the fallback to copy constructor invocations happens
+    */
+   v.emplace_back()
 }
 
