@@ -3,6 +3,16 @@
 #include <format>
 #include <iomanip>
 
+/* What is a Structure Binding ?
+   ----------------------------
+   Introduced in C++17, 
+   structured bindings allow you to "unpack" or "destructure" an object—like a tuple, 
+   pair, struct, or array—into multiple individual variables in a single statement. 
+   It makes code cleaner by replacing manual access (like .first, .second, or std::get<0>) 
+   with meaningful variable names.
+   
+*/
+
 int main()
 {
    std::map<int, std::string>  studentRollNoName = {{1,"Henry"}, {2,"Atlas"}, {3, "Benjamin"}};
