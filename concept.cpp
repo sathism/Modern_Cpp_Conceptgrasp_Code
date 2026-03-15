@@ -6,15 +6,26 @@
 #include <list>
 #include <iostream>
 
-/* This program demonstrates the different ways of using 
- *  C++ 20 concept feature
+/* SFINAE stands for Substitution Failure Is Not An Error. 
+It is a core principle in C++ template logic that dictates how the compiler handles errors during the template specialization process. 
+The Core Definition
+When a compiler encounters a function template call, it tries to "substitute" the actual types (like int or std::string) 
+for the template parameters (like T). If this substitution results in an invalid type or expression in the template's signature, 
+the compiler does not stop with a compilation error. 
+Instead, it simply:
+Discard that particular template specialization from the set of potential candidates (the "overload set").
+Continues searching for other valid overloads that might fit the call. 
+*/
+
+/* C++ 17 refined SFINAE with enable_if, decltype but C++ 20 has come up interesting 
+ * thing called concept to refine SFINAE
 */
 
 template <typename T>
 /*
   1. Named conept
   concept is the rule name
-  requires is the actual rule ot be applied
+  requires is the actual rule to be applied
   at compile time to check the template deductions is proper or not
 */
 concept INTEGRAL = requires(T) { 
