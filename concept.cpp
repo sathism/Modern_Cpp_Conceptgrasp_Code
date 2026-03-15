@@ -120,7 +120,7 @@ void process4(T &ref)
     std::relation<T, F, U> ;
 */
 
-/* Custom concept */
+/* Custom concept implementation  */
 template <typename T>
 concept SortableContainer = std::ranges::random_access_range<T> && 
                             std::totally_ordered<std::ranges::range_value_t<T>>;
