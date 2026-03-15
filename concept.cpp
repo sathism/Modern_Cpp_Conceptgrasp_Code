@@ -17,7 +17,7 @@ Discard that particular template specialization from the set of potential candid
 Continues searching for other valid overloads that might fit the call. 
 */
 
-/* C++ 17 refined SFINAE with enable_if, decltype but C++ 20 has come up interesting 
+/* C++ 17 refined SFINAE with enable_if, decltype and type traits but C++ 20 has come up interesting 
  * thing called concept to refine SFINAE
 */
 
