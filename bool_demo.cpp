@@ -4,8 +4,10 @@
 int main() {
 
     std::vector<bool> v = {1, 1, 1};
-    /* this is posisble w.r.t to bool because
-     *  int &&ref = 5 is allowed by compiler
+    /*  compiler allowes this declaration : int &&ref = 5 but it wont allow
+     *  int &ref = 5
+     *  Hence w.r.t bool the below for loop is totally fine
+     *  
     */
     for (auto &&ref : v) {
         ref  = 0 ; 
@@ -19,6 +21,7 @@ int main() {
        and you change it, the temporary will vanish in a millisecond and your change might be lost or 
        you'll be left holding a 'broken' reference."
        example int &ref = 5 // is not possible
+       the below throws compilations error
      */
     for (auto  &ref : v) {
         ref = 0; 
