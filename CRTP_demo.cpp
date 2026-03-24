@@ -10,7 +10,7 @@
     itself as a template argument.
 
   Key Benefits:
-  ------------
+  --------------
    1. Performance: Eliminates the need for a virtual table (vtable) and pointer dereferencing, enabling compiler optimizations like inlining.
    2. Code Reuse: Allows the base class to provide common functionality that depends on specific implementations in derived classes.
    3. Static Type Safety: Since relationships are resolved at compile time, the compiler can catch type mismatches early.
@@ -21,7 +21,7 @@
   2. Mixins: Adding specific behaviors to a class by inheriting from multiple CRTP base classes.
   3. Object Counter: Tracking the number of instances for specific types using a static member in the CRTP base.
   4. Method Chaining: Enabling fluent interfaces where methods in the base class can return a reference to the derived type. 
-  5. Introspection / Static Reflection (The "Logic" Pattern) : Introspection is a technique where the base class "looks into" 
+  5. Introspection/Static Reflection(The "Logic" Pattern) : Introspection is a technique where the base class "looks into" 
      the derived class to see what it is capable of. It doesn't add data; it changes behavior based on what it finds.
   
   History
@@ -33,42 +33,35 @@
 */
 
 /* 
-  As we are heading to C++ 26 version, lets see only the latest C++ 23 version based
-  simplified CRTP implementation using dedcuing this
-
+  As we are expecting C++ 26 release anytime this year, Lets focus on how to use CRTP based on 
+  the last released C++ version(23).
 */
 
 //Use case-1 Static Polymorphism (Interface Pattern)
-
 class Base {
 
   public:
-
-   inline void implementation()
-   {    
+   inline void implementation()   {    
        std::cout << "Base Implementation" << std::endl;
    }
 
    template <typename Self>
-   inline void do_work(this Self&& self)
-   {
+   inline void do_work(this Self&& self)   {
        self.implementation();
    }
-
 };
 
 class Derived : public Base {
    public :
-   inline void implementation()
-   {
+   inline void implementation()   {
       std::cout << "Derived Implementation" << std::endl;
    }
-
 };
 
-
 //Use Case-2 Method Chaining (Fluent Interface)
-//The base class methods can return a reference to the Derived type directly, allowing you to chain methods from both classes
+/* The base class methods can return a reference to the Derived type directly, 
+ * allowing you to chain methods from both the classes
+*/
 class PrinterBase {
    public :
     template <typename Self>
@@ -83,8 +76,9 @@ class ColorPrinter : public PrinterBase {
     ColorPrinter& set_color(int c) { return *this; }
 };
 
-/* Use Case-3  Mixins (Adding Reusable Logic)
-   You can inject common logic into any class just by inheriting from a base. For example, an "Equality" mixin that uses a member value
+// Use Case-3  Mixins (Adding Reusable Logic)
+/*   You can inject common logic into any class just by inheriting from a base.
+     For example, an "Equality" mixin that uses a member value
 
   When to Choose Mixins
   ----------------------
@@ -98,8 +92,8 @@ class ColorPrinter : public PrinterBase {
   ---------------------
     std::enable_shared_from_this: A standard library mixin that adds the ability for an object to safely generate a shared_ptr to itself.
     std::nested_exception: A mixin that allows any exception class to store and rethrow another "nested" exception.
-
 */
+
 class EqualityMixin {
   public:
     // C++23 "Deducing this" allows the base to compare two Derived objects
@@ -116,7 +110,8 @@ class ID : public EqualityMixin {
     ID(int v) : value(v) {}
 };
 
-/* Use Case-4 Recursive Visitor / Custom Logic
+//Use Case-4 Recursive Visitor/Custom Logic
+/* 
    You can use the type of self to perform different logic based on the actual object type at the call site.
    Why this is powerful:
    ---------------------
@@ -150,13 +145,13 @@ class Device : public Logger {
     // No name() method here
 };
 
-/* Use Case-5 Object Counter
-    * In the context of CRTP, an Object Counter is a reusable template base class that tracks how many active 
-    *  instances of a specific derived class exist in memory at any given time.
-    *  The Definition
-    *  It relies on two core C++ mechanics:
-    *  Template Instantiation: Because the base is Counter<Derived>, the compiler creates a unique static variable for every different derived class.
-    *  RAII (Resource Acquisition Is Initialization): It uses the Constructor to increment and the Destructor to decrement the count automatically.
+// Use Case-5 Object Counter
+/* In the context of CRTP, an Object Counter is a reusable template base class that tracks how many active 
+ *  instances of a specific derived class exist in memory at any given time.
+ *  The Definition
+ *  It relies on two core C++ mechanics:
+ *  Template Instantiation: Because the base is Counter<Derived>, the compiler creates a unique static variable for every different derived class.
+ *  RAII (Resource Acquisition Is Initialization): It uses the Constructor to increment and the Destructor to decrement the count automatically.
 */
 
 template <typename T>
@@ -181,14 +176,14 @@ class Counter {
 class Users : public Counter<Users> {};
 class Tasks : public Counter<Tasks> {};
 
-int main()
-{
+//Driver code to demonstrate CRTP
+int main() {
      Base b{};
      Derived d{};
      PrinterBase pb{};
      ColorPrinter cd{};
 
-     //Use cae 1 - Static Polymorphism
+     //Use case 1 - Static Polymorphism
      b.do_work();
      d.do_work();
 
@@ -208,7 +203,6 @@ int main()
     
     std::cout << "Is id1 == id2? " << (id1 == id2) << "\n"; // true
     std::cout << "Is id1 == id3? " << (id1 == id3) << "\n"; // false
-
 
      //Use case 4 - Recursive Visitor
      User u;
@@ -235,8 +229,6 @@ int main()
     std::cout << "Final Users: " << Users::count() << "\n"; // 2
     std::cout << "Final Tasks: " << Tasks::count() << "\n"; // 0
 
-
      return 0;
-
 }
 
