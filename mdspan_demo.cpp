@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mdspan>
 
+<<<<<<< HEAD
 /*  In C++23, std::mdspan is a multidimensional array view that allows you to interact with a flat, 
     contiguous block of memory (like a std::vector or a raw pointer) as if it were a multi-dimensional array. 
 
@@ -95,5 +96,23 @@ int main() {
     // --- LAYOUT/STRIDE METHODS ---
     std::cout << "Stride for Rows: " << sub_vivew.mapping().stride(1) << "\n"; 
   
+=======
+/* What is mdspan
+    Introduced in C++23, std::mdspan is a lightweight, non-owning "view" that allows you to treat a flat, 
+    contiguous piece of memory (like a std::vector or raw array) as a multidimensional array. It solves the 
+    long-standing problem of managing matrices and tensors without the performance overhead or fragmentation 
+    of traditional "pointer-to-pointer" (int**) approaches.
+*/
+int main()
+{
+   std::vector data = {1,2,3,4,5,6};
+   /* Usage 1 */
+   std::mdspan arr1(data, 3, 2 );
+
+   /* Usage 2 - Static Extents */
+   std::mdspan<int, std::extents<std::size_t 3,3>>  arr2(data);
+
+   std::cout << "Element at [0,1] " << arr1[0,1] << std::endl;
+>>>>>>> b887430 (Modified Files)
    return 0;
 }
